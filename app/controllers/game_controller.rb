@@ -28,6 +28,19 @@ class GameController < ApplicationController
     redirect_to game_path
   end
 
+  def reset
+    # Clear all session data for a fresh start
+    reset_session
+
+    # Delete all cached images
+    cache_dir = Rails.root.join('public', 'images', 'generated')
+    if Dir.exist?(cache_dir)
+      FileUtils.rm_rf(Dir.glob("#{cache_dir}/*"))
+    end
+
+    redirect_to game_path
+  end
+
   private
 
   def load_story
@@ -47,6 +60,20 @@ class GameController < ApplicationController
 
   def generate_or_get_image(scene)
     image_generator = ImageGeneratorFactory.create
-    image_generator.generate(scene['image_prompt'], scene['id'])
+
+    # Build a context string from the text of previous choices
+    previous_choices_text = session[:choices_made].map do |choice_info|
+      previous_scene = @story['scenes'].find { |s| s['id'] == choice_info['scene'] }
+      if previous_scene
+        previous_scene['choices'][choice_info['choice']]['text']
+      end
+    end.compact.join('. ')
+
+    context = {
+      previous_choices: previous_choices_text,
+      style: @story['style'],
+      tags: @story['tags']
+    }
+    image_generator.generate(scene['image_prompt'], scene['id'], context)
   end
 end

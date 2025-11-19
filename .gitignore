@@ -22,6 +22,7 @@
 /storage/*
 !/storage/.keep
 /storage/images/generated/*
+/public/images/generated/*
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
@@ -48,3 +49,4 @@ yarn.lock
 # OS files
 .DS_Store
 Thumbs.db
+.aider*

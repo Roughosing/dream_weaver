@@ -10,15 +10,39 @@ class ImageGeneratorBase
 
   # Main method to generate or retrieve an image
   # Returns the path to the image file
-  def generate(prompt, scene_id)
+  def generate(prompt, scene_id, context = {})
     cached_image = get_cached_image(scene_id)
-    return cached_image if cached_image
+    if cached_image
+      Rails.logger.debug "Image cache HIT for scene '#{scene_id}': #{cached_image}"
+      return cached_image
+    end
+
+    full_prompt = build_prompt_with_context(prompt, context)
+
+    Rails.logger.info "Image cache MISS for scene '#{scene_id}'. Generating with #{self.class.name}."
+    Rails.logger.debug "Image prompt: #{full_prompt}"
 
     # Generate new image
-    image_data = call_api(prompt)
-    
+    image_data = nil
+    begin
+      Retriable.retriable on: [Net::OpenTimeout, Net::ReadTimeout, Faraday::TimeoutError], tries: 3, base_interval: 1 do |try|
+        Rails.logger.info "Attempting to generate image for scene '#{scene_id}' (attempt #{try})..." if try > 1
+        image_data = call_api(full_prompt)
+      end
+    rescue Net::OpenTimeout, Net::ReadTimeout, Faraday::TimeoutError => e
+      Rails.logger.error "Image generation failed for scene '#{scene_id}' after multiple retries: #{e.class} - #{e.message}"
+      return nil
+    end
+
+    if image_data.blank?
+      Rails.logger.error "Image generation failed: API returned no data for scene '#{scene_id}'."
+      return nil
+    end
+
     # Save and cache
-    save_image(image_data, scene_id)
+    path = save_image(image_data, scene_id)
+    Rails.logger.info "Image successfully generated and saved to #{path}"
+    path
   end
 
   protected
@@ -26,6 +50,24 @@ class ImageGeneratorBase
   # Override this method in subclasses to call the specific API
   def call_api(prompt)
     raise NotImplementedError, "Subclasses must implement #call_api"
+  end
+
+  def build_prompt_with_context(prompt, context)
+    full_prompt = [prompt]
+
+    if context[:previous_choices].present?
+      full_prompt << "CONTEXT FROM PREVIOUS CHOICES: #{context[:previous_choices]}"
+    end
+
+    if context[:style].present?
+      full_prompt << "STYLE: #{context[:style]}"
+    end
+
+    if context[:tags].present?
+      full_prompt << "TAGS: #{context[:tags]}"
+    end
+
+    full_prompt.join("\n\n")
   end
 
   # Override this method if the API returns data in a different format
@@ -55,17 +97,14 @@ class ImageGeneratorBase
     "/images/generated/#{scene_id}.png"
   end
 
-  private
+  protected
 
   def get_cached_image(scene_id)
-    # Check for PNG first, then SVG
-    cached_path_png = @cache_dir.join("#{scene_id}.png")
-    cached_path_svg = @cache_dir.join("#{scene_id}.svg")
+    # Default generator checks for PNG files
+    cached_path = @cache_dir.join("#{scene_id}.png")
     
-    if File.exist?(cached_path_png)
+    if File.exist?(cached_path) && File.mtime(cached_path) > 10.seconds.ago
       return "/images/generated/#{scene_id}.png"
-    elsif File.exist?(cached_path_svg)
-      return "/images/generated/#{scene_id}.svg"
     end
     nil
   end
