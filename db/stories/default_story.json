@@ -1,0 +1,254 @@
+{
+  "title": "The Dragon's Choice",
+  "start_scene": "CROSSROADS",
+  "scenes": [
+    {
+      "id": "CROSSROADS",
+      "narrative_text": "You stand at a mysterious crossroads. The path to the left disappears into a dark, misty forest. The path to the right leads up a winding mountain trail, glowing faintly in the moonlight. As you contemplate your decision, the ground trembles beneath your feet.",
+      "image_prompt": "A cinematic wide-angle shot of a mysterious crossroads at night. Two paths diverge - one into a dark misty forest, one up a glowing mountain trail. Moonlight illuminates the scene. Fantasy, atmospheric, photorealistic.",
+      "choices": [
+        {
+          "text": "Take the left path into the forest",
+          "next_scene": "FOREST"
+        },
+        {
+          "text": "Take the right path up the mountain",
+          "next_scene": "MOUNTAIN"
+        },
+        {
+          "text": "Wait and see what causes the tremor",
+          "next_scene": "DRAGON_ARRIVAL"
+        }
+      ]
+    },
+    {
+      "id": "DRAGON_ARRIVAL",
+      "narrative_text": "Suddenly, a massive shadow blocks out the moon. A colossal dragon descends from the sky, landing before you with a thunderous impact. Its scales shimmer like emeralds, and its eyes burn with ancient wisdom. The dragon speaks: 'Choose wisely, traveler. Attack my right side and go left, attack my left side and go right, or flee while you still can.'",
+      "image_prompt": "A cinematic shot of a massive, majestic emerald dragon landing at a crossroads. The dragon is colossal, with shimmering scales and wise, glowing eyes. Moonlight creates dramatic shadows. Fantasy, epic, photorealistic.",
+      "choices": [
+        {
+          "text": "Attack the dragon's right side and go left",
+          "next_scene": "DRAGON_LEFT_PATH"
+        },
+        {
+          "text": "Attack the dragon's left side and go right",
+          "next_scene": "DRAGON_RIGHT_PATH"
+        },
+        {
+          "text": "Run away as fast as you can",
+          "next_scene": "ESCAPE"
+        }
+      ]
+    },
+    {
+      "id": "FOREST",
+      "narrative_text": "You venture into the dark forest. The mist thickens around you, and strange sounds echo from the shadows. Ancient trees tower overhead, their branches forming a canopy that blocks out the stars. You sense you're not alone.",
+      "image_prompt": "A dark, misty forest at night. Ancient towering trees with gnarled branches. Thick mist swirls between the trees. Mysterious, atmospheric, fantasy, photorealistic.",
+      "choices": [
+        {
+          "text": "Continue deeper into the forest",
+          "next_scene": "FOREST_DEEP"
+        },
+        {
+          "text": "Turn back to the crossroads",
+          "next_scene": "CROSSROADS"
+        }
+      ]
+    },
+    {
+      "id": "MOUNTAIN",
+      "narrative_text": "You begin climbing the mountain path. The trail glows with an ethereal light, and as you ascend, you see ancient runes carved into the stone. The air grows thinner, but you feel a sense of purpose driving you forward.",
+      "image_prompt": "A winding mountain trail at night, glowing with ethereal light. Ancient runes carved into stone walls. Stars visible in the clear sky above. Mystical, fantasy, photorealistic.",
+      "choices": [
+        {
+          "text": "Continue climbing",
+          "next_scene": "MOUNTAIN_TOP"
+        },
+        {
+          "text": "Turn back to the crossroads",
+          "next_scene": "CROSSROADS"
+        }
+      ]
+    },
+    {
+      "id": "DRAGON_LEFT_PATH",
+      "narrative_text": "You strike at the dragon's right side! The dragon roars in surprise but doesn't retaliate. Instead, it chuckles deeply. 'Bold choice, little one. The left path holds secrets few dare to discover.' The dragon steps aside, and you take the left path into the forest, feeling the dragon's blessing upon you.",
+      "image_prompt": "A brave adventurer attacking a dragon's right side. The dragon looks amused rather than angry. The left forest path visible in the background. Epic fantasy scene, photorealistic.",
+      "choices": [
+        {
+          "text": "Enter the forest with the dragon's blessing",
+          "next_scene": "FOREST_BLESSED"
+        }
+      ]
+    },
+    {
+      "id": "DRAGON_RIGHT_PATH",
+      "narrative_text": "You strike at the dragon's left side! The dragon's eyes flash with approval. 'Clever! The right path leads to wisdom.' The dragon spreads its wings, creating a gust that propels you toward the mountain path. You feel empowered as you begin your ascent.",
+      "image_prompt": "An adventurer attacking a dragon's left side. The dragon looks approving. The right mountain path glowing in the background. Epic fantasy scene, photorealistic.",
+      "choices": [
+        {
+          "text": "Ascend the mountain with newfound power",
+          "next_scene": "MOUNTAIN_EMPOWERED"
+        }
+      ]
+    },
+    {
+      "id": "ESCAPE",
+      "narrative_text": "You turn and run! The dragon's laughter echoes behind you. 'Wisdom comes in many forms, traveler. Sometimes, knowing when to retreat is the greatest courage.' You escape safely, but you can't help wondering what adventures you missed.",
+      "image_prompt": "A figure running away from a crossroads. A dragon watches from behind, looking amused rather than threatening. Night scene, fantasy, photorealistic.",
+      "choices": []
+    },
+    {
+      "id": "FOREST_DEEP",
+      "narrative_text": "You push deeper into the forest. The mist parts to reveal an ancient stone circle. In the center, a glowing crystal pulses with energy. This is clearly a place of great power.",
+      "image_prompt": "An ancient stone circle in a misty forest. A glowing crystal pulses in the center. Mystical, atmospheric, fantasy, photorealistic.",
+      "choices": [
+        {
+          "text": "Touch the crystal",
+          "next_scene": "CRYSTAL_POWER"
+        },
+        {
+          "text": "Observe from a distance",
+          "next_scene": "CRYSTAL_OBSERVE"
+        }
+      ]
+    },
+    {
+      "id": "FOREST_BLESSED",
+      "narrative_text": "With the dragon's blessing, the forest welcomes you. The mist parts, revealing a hidden grove filled with glowing flowers. An ancient tree spirit appears before you, offering you a choice: knowledge or power.",
+      "image_prompt": "A hidden grove in a forest, filled with glowing flowers. An ancient tree spirit appears. Magical, ethereal, fantasy, photorealistic.",
+      "choices": [
+        {
+          "text": "Choose knowledge",
+          "next_scene": "ENDING_WISDOM"
+        },
+        {
+          "text": "Choose power",
+          "next_scene": "ENDING_POWER"
+        }
+      ]
+    },
+    {
+      "id": "MOUNTAIN_TOP",
+      "narrative_text": "You reach the summit! Before you stands an ancient temple, its doors glowing with runes. The view is breathtaking, and you feel a sense of accomplishment wash over you.",
+      "image_prompt": "A mountain summit with an ancient glowing temple. Breathtaking view of the landscape below. Stars in the night sky. Epic, fantasy, photorealistic.",
+      "choices": [
+        {
+          "text": "Enter the temple",
+          "next_scene": "TEMPLE"
+        },
+        {
+          "text": "Take in the view",
+          "next_scene": "ENDING_PEACE"
+        }
+      ]
+    },
+    {
+      "id": "MOUNTAIN_EMPOWERED",
+      "narrative_text": "With the dragon's power flowing through you, you leap up the mountain path. The runes on the stones glow brighter as you pass. At the summit, the temple doors swing open of their own accord, welcoming you.",
+      "image_prompt": "A glowing mountain path with bright runes. An adventurer ascending with visible magical energy. Temple doors opening at the summit. Epic, fantasy, photorealistic.",
+      "choices": [
+        {
+          "text": "Enter the open temple",
+          "next_scene": "TEMPLE_OPEN"
+        }
+      ]
+    },
+    {
+      "id": "CRYSTAL_POWER",
+      "narrative_text": "You touch the crystal, and power surges through you! Visions flood your mind - you see possibilities, futures, and the threads of fate. You have gained the gift of foresight.",
+      "image_prompt": "A glowing crystal being touched, with magical energy flowing. Visions and light surrounding the scene. Mystical, fantasy, photorealistic.",
+      "choices": [
+        {
+          "text": "Use your new power",
+          "next_scene": "ENDING_FORESIGHT"
+        }
+      ]
+    },
+    {
+      "id": "CRYSTAL_OBSERVE",
+      "narrative_text": "You watch the crystal from a distance. It pulses rhythmically, and you realize it's a heartbeat - the heartbeat of the forest itself. You have gained deep understanding of nature's ways.",
+      "image_prompt": "A glowing crystal pulsing like a heartbeat. An observer watching from a respectful distance. Forest spirits visible in the mist. Mystical, fantasy, photorealistic.",
+      "choices": [
+        {
+          "text": "Accept this understanding",
+          "next_scene": "ENDING_HARMONY"
+        }
+      ]
+    },
+    {
+      "id": "TEMPLE",
+      "narrative_text": "You enter the temple. Inside, ancient murals tell stories of heroes and dragons. At the center, a pedestal holds a glowing artifact. This is a place of legend.",
+      "image_prompt": "Inside an ancient temple with glowing murals. A pedestal with a glowing artifact in the center. Mystical, fantasy, photorealistic.",
+      "choices": [
+        {
+          "text": "Take the artifact",
+          "next_scene": "ENDING_ARTIFACT"
+        },
+        {
+          "text": "Study the murals",
+          "next_scene": "ENDING_LEGEND"
+        }
+      ]
+    },
+    {
+      "id": "TEMPLE_OPEN",
+      "narrative_text": "The temple welcomes you! The dragon's power resonates with the temple's energy. The artifact floats toward you, recognizing you as worthy. You have become a Dragon Knight.",
+      "image_prompt": "A temple interior with an artifact floating toward a worthy hero. Magical energy flows between them. Epic, fantasy, photorealistic.",
+      "choices": [
+        {
+          "text": "Accept your destiny",
+          "next_scene": "ENDING_DRAGON_KNIGHT"
+        }
+      ]
+    },
+    {
+      "id": "ENDING_WISDOM",
+      "narrative_text": "You chose knowledge, and the tree spirit grants you the wisdom of ages. You become a sage, guiding others with your understanding. Your story becomes legend.",
+      "image_prompt": "A wise sage in a magical grove, surrounded by glowing flowers and forest spirits. Peaceful, mystical, fantasy, photorealistic.",
+      "choices": []
+    },
+    {
+      "id": "ENDING_POWER",
+      "narrative_text": "You chose power, and the tree spirit grants you the strength of the forest itself. You become a guardian of nature, protecting the wild places. Your legend grows.",
+      "image_prompt": "A powerful guardian of nature, surrounded by forest magic. Strong, mystical, fantasy, photorealistic.",
+      "choices": []
+    },
+    {
+      "id": "ENDING_PEACE",
+      "narrative_text": "You sit at the summit, taking in the breathtaking view. Sometimes, the greatest adventure is finding peace. You return home with a heart full of wonder.",
+      "image_prompt": "A peaceful scene at a mountain summit. A figure sitting, looking at a beautiful landscape. Serene, fantasy, photorealistic.",
+      "choices": []
+    },
+    {
+      "id": "ENDING_FORESIGHT",
+      "narrative_text": "With the gift of foresight, you see the paths ahead clearly. You become a seer, helping others navigate their destinies. Your name is remembered for generations.",
+      "image_prompt": "A seer with glowing eyes, seeing visions of the future. Mystical, fantasy, photorealistic.",
+      "choices": []
+    },
+    {
+      "id": "ENDING_HARMONY",
+      "narrative_text": "You have learned to live in harmony with nature. The forest accepts you as one of its own. You become a druid, bridging the worlds of civilization and wilderness.",
+      "image_prompt": "A druid in harmony with nature, surrounded by forest creatures and spirits. Peaceful, mystical, fantasy, photorealistic.",
+      "choices": []
+    },
+    {
+      "id": "ENDING_ARTIFACT",
+      "narrative_text": "You take the artifact, and its power flows through you. You have become a hero of legend, destined to protect the realm. Your adventure is just beginning.",
+      "image_prompt": "A hero holding a glowing artifact, power radiating from them. Epic, fantasy, photorealistic.",
+      "choices": []
+    },
+    {
+      "id": "ENDING_LEGEND",
+      "narrative_text": "You study the murals and learn the ancient stories. You become a scholar of legends, preserving the tales of heroes past. Knowledge is your greatest treasure.",
+      "image_prompt": "A scholar in an ancient temple, studying glowing murals. Wise, mystical, fantasy, photorealistic.",
+      "choices": []
+    },
+    {
+      "id": "ENDING_DRAGON_KNIGHT",
+      "narrative_text": "You accept the artifact and the dragon's blessing. You have become a Dragon Knight, a legendary warrior bonded with dragonkind. Your name will echo through history.",
+      "image_prompt": "A Dragon Knight in glowing armor, holding a powerful artifact. A dragon visible in the background. Epic, fantasy, photorealistic.",
+      "choices": []
+    }
+  ]
+}

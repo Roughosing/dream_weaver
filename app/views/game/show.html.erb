@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dream Weaver - Visual Novel</title>
+  <%= stylesheet_link_tag 'game', media: 'all' %>
+</head>
+<body>
+  <div class="game-container">
+    <div class="scene-image-container">
+      <% if @scene_image %>
+        <%= image_tag @scene_image, alt: "Scene image", class: "scene-image" %>
+      <% else %>
+        <div class="image-loading">Generating image...</div>
+      <% end %>
+    </div>
+
+    <div class="narrative-container">
+      <div class="narrative-text">
+        <%= simple_format(@current_scene['narrative_text']) %>
+      </div>
+    </div>
+
+    <% if @current_scene['choices'] && @current_scene['choices'].any? %>
+      <div class="choices-container">
+        <% @current_scene['choices'].each_with_index do |choice, index| %>
+          <%= form_with url: choose_game_path, method: :post, local: true, class: "choice-form" do |f| %>
+            <%= hidden_field_tag :choice_index, index %>
+            <%= f.submit choice['text'], class: "choice-button" %>
+          <% end %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="ending-container">
+        <p class="ending-text">The End</p>
+        <%= form_with url: restart_game_path, method: :post, local: true do |f| %>
+          <%= f.submit "Play Again", class: "restart-button" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</body>
+</html>
