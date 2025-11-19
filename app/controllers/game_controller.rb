@@ -28,6 +28,19 @@ class GameController < ApplicationController
     redirect_to game_path
   end
 
+  def reset
+    # Clear all session data for a fresh start
+    reset_session
+
+    # Delete all cached images
+    cache_dir = Rails.root.join('public', 'images', 'generated')
+    if Dir.exist?(cache_dir)
+      FileUtils.rm_rf(Dir.glob("#{cache_dir}/*"))
+    end
+
+    redirect_to game_path
+  end
+
   private
 
   def load_story
