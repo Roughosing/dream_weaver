@@ -8,10 +8,15 @@ class GeminiImageGenerator < ImageGeneratorBase
 
   protected
 
+  def system_prompt
+    'this image will be used for text based game with visuals. It should give enough context of what is going on.'
+  end
+
   def call_api(prompt)
     require 'net/http'
     require 'json'
 
+    full_prompt = system_prompt + "\n" + prompt
     uri = URI(@api_url)
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
@@ -26,7 +31,7 @@ class GeminiImageGenerator < ImageGeneratorBase
     request_body = {
       contents: [{
         parts: [
-          { text: prompt }
+          { text: full_prompt }
         ]
       }]
     }
@@ -45,7 +50,7 @@ class GeminiImageGenerator < ImageGeneratorBase
     base64_data = result.dig('candidates', 0, 'content', 'parts', 0, 'inlineData', 'data')
 
     unless base64_data
-      Rails.logger.error "Gemini API Error: Could not find image data in response."
+      Rails.logger.error 'Gemini API Error: Could not find image data in response.'
       Rails.logger.error "Gemini API Response: #{response.body}"
       Rails.logger.error "Gemini API Payload: #{request_body.to_json}"
       return nil
