@@ -25,9 +25,12 @@ class ImageGeneratorBase
     # Generate new image
     image_data = nil
     begin
-      image_data = call_api(full_prompt)
+      Retriable.retriable on: [Net::OpenTimeout, Net::ReadTimeout, Faraday::TimeoutError], tries: 3, base_interval: 1 do |try|
+        Rails.logger.info "Attempting to generate image for scene '#{scene_id}' (attempt #{try})..." if try > 1
+        image_data = call_api(full_prompt)
+      end
     rescue Net::OpenTimeout, Net::ReadTimeout, Faraday::TimeoutError => e
-      Rails.logger.error "Image generation timed out for scene '#{scene_id}': #{e.class} - #{e.message}"
+      Rails.logger.error "Image generation failed for scene '#{scene_id}' after multiple retries: #{e.class} - #{e.message}"
       return nil
     end
 

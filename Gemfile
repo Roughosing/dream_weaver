@@ -16,6 +16,7 @@ gem 'bcrypt', '~> 3.1.7'
 
 # AI Integration
 gem 'ruby-openai'  # For ChatGPT and DALL-E 3
+gem 'retriable'    # For simple, exponential backoff retries
 
 # Image processing
 gem 'image_processing', '~> 1.2'
