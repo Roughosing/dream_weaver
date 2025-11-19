@@ -69,6 +69,11 @@ class GameController < ApplicationController
       end
     end.compact.join('. ')
 
-    image_generator.generate(scene['image_prompt'], scene['id'], { previous_choices: previous_choices_text })
+    context = {
+      previous_choices: previous_choices_text,
+      style: @story['style'],
+      tags: @story['tags']
+    }
+    image_generator.generate(scene['image_prompt'], scene['id'], context)
   end
 end

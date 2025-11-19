@@ -50,12 +50,21 @@ class ImageGeneratorBase
   end
 
   def build_prompt_with_context(prompt, context)
-    choices_text = context[:previous_choices]
-    if choices_text.present?
-      "#{prompt}\n\nCONTEXT FROM PREVIOUS CHOICES: #{choices_text}"
-    else
-      prompt
+    full_prompt = [prompt]
+
+    if context[:previous_choices].present?
+      full_prompt << "CONTEXT FROM PREVIOUS CHOICES: #{context[:previous_choices]}"
     end
+
+    if context[:style].present?
+      full_prompt << "STYLE: #{context[:style]}"
+    end
+
+    if context[:tags].present?
+      full_prompt << "TAGS: #{context[:tags]}"
+    end
+
+    full_prompt.join("\n\n")
   end
 
   # Override this method if the API returns data in a different format
