@@ -12,6 +12,11 @@ class StoryGeneratorController < ApplicationController
       flash[:error] = "Please enter a prompt for your story"
       redirect_to new_story_generator_path and return
     end
+    
+    # Clean up previous story if exists
+    if session[:story_id].present?
+      cleanup_old_story(session[:story_id])
+    end
 
     begin
       # Generate the story using the GameGenerator
@@ -43,6 +48,25 @@ class StoryGeneratorController < ApplicationController
       flash[:error] = "Failed to generate story: #{e.message}"
       redirect_to new_story_generator_path
     end
+  end
+  
+  private
+  
+  def cleanup_old_story(story_id)
+    # Delete cached story data
+    Rails.cache.delete("story_#{story_id}")
+    
+    # Clean up old story images
+    image_dir = Rails.root.join('public', 'images', 'generated')
+    pattern = "#{story_id}_*.png"
+    
+    Dir.glob(File.join(image_dir, pattern)).each do |file|
+      File.delete(file) rescue nil
+    end
+    
+    Rails.logger.info("Cleaned up old story: #{story_id}")
+  rescue => e
+    Rails.logger.error("Error cleaning up old story: #{e.message}")
   end
 end
 

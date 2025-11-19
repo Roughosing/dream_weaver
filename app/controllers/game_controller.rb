@@ -26,7 +26,11 @@ class GameController < ApplicationController
     if params[:new_story]
       # Clear the story ID and go back to the generator
       if session[:story_id].present?
+        # Delete cached story data
         Rails.cache.delete("story_#{session[:story_id]}")
+        
+        # Clean up old story images
+        cleanup_story_images(session[:story_id])
       end
       session[:story_id] = nil
       session[:current_scene_id] = nil
@@ -85,6 +89,25 @@ class GameController < ApplicationController
 
   def generate_or_get_image(scene)
     image_generator = ImageGeneratorFactory.create
-    image_generator.generate(scene['image_prompt'], scene['id'])
+    # Include story_id in cache key so each story has unique images
+    story_id = session[:story_id] || 'default'
+    cache_key = "#{story_id}_#{scene['id']}"
+    image_generator.generate(scene['image_prompt'], cache_key)
+  end
+  
+  def cleanup_story_images(story_id)
+    # Remove all images associated with this story
+    return if story_id.blank?
+    
+    image_dir = Rails.root.join('public', 'images', 'generated')
+    pattern = "#{story_id}_*.png"
+    
+    Dir.glob(File.join(image_dir, pattern)).each do |file|
+      File.delete(file) rescue nil
+    end
+    
+    Rails.logger.info("Cleaned up images for story: #{story_id}")
+  rescue => e
+    Rails.logger.error("Error cleaning up images: #{e.message}")
   end
 end

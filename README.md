@@ -28,7 +28,6 @@ An immersive, web-based visual novel where the story and art are created dynamic
    Create a `.env` file in the root directory:
    ```bash
    GEMINI_API_KEY=your_gemini_api_key_here
-   NANOBANANA_API_KEY=your_nanobanana_api_key_here
    IMAGE_GENERATOR=gemini  # Options: placeholder, dalle3, midjourney, stability, gemini
    ```
 

@@ -26,32 +26,42 @@ module TextBasedGame
         1.  **Total Scenes:** Generate at least 20 scenes.
         2.  **Endings:** Include 2 to 4 distinct ending scenes (some positive, some negative).
         3.  **Theme/Genre:** Create a story that is intriguing, filled with plot twists, and fun to play. Include dialogues. It's an RPG.
-      4.  **Narrative:** USe same structure as the most popular books/movies in the area. IT should be as fun and interesting as watching a movie. LEt's use best sources
+        4.  **Narrative:** Use same structure as the most popular books/movies in the area. IT should be as fun and interesting as watching a movie. Let's use best sources.
         5.  **Visual Consistency:** All image prompts must share a consistent art style (e.g., "Cinematic lighting, unreal engine 5 render, noir style").
-        6.  **Visuals:** Images should reflect character development. Interaction with world. Emotions.#{' '}
+        6.  **Visuals:** Images should reflect character development. Interaction with world. Emotions.
 
         **Structure Requirement:**
         You must output the game in a structured format. For EACH scene, use exactly this template:
 
         ---
-        **Scene ID:** [Number]
+        **Scene ID:** [Unique identifier]
         **Scene Title:** [Name of the scene]
         **Narrative:** [The story text. For Scene 1, you MUST explain who the player is, where they are, and what their ultimate goal is. Keep it engaging.]
         **Image Prompt:** [Detailed description for an AI image generator. Describe the setting, lighting, mood, and key objects. Do not use random descriptions; they must strictly match the Narrative.]
-        **Choices:**
+        **Choices:** (Standard: 3 choices A, B, C)
            A) [Text for Choice A] -> Leads to Scene [ID]
            B) [Text for Choice B] -> Leads to Scene [ID]
-           (Optional) C) [Text for Choice C] -> Leads to Scene [ID]
-           (Optional) D) [Text for Choice D] -> Leads to Scene [ID]
+           C) [Text for Choice C] -> Leads to Scene [ID]
+           (Optional D) [Text for Choice D] -> Leads to Scene [ID]
         ---
 
+        **CRITICAL CHOICE RULES:**
+        * **DEFAULT CHOICES:** Every non-ending scene should have EXACTLY 3 CHOICES (A, B, and C). This is the standard.
+        * **MINIMUM CHOICES:** Absolutely minimum of 2 choices (only when narratively critical to have fewer).
+        * **MAXIMUM CHOICES:** Up to 4 choices (A, B, C, D) for particularly complex decision points.
+        * **ENDING SCENES ONLY:** Only ending scenes should have ZERO choices (empty choices array).
+        * **Important:** 3 choices is the TARGET for most scenes. Give players meaningful options and agency.
+        * **Never create scenes with only 1 choice** - this removes player agency and breaks immersion.
+
         **Logic Rules:**
-        * **Scene 1 (Entry Point):** Must be the "Hook." Establish the protagonist's identity and the stakes immediately.
+        * **Scene 1 (Entry Point):** Must be the "Hook." Establish the protagonist's identity and the stakes immediately. MUST have 3 choices.
+        * **Standard Scenes:** Should have 3 choices (A, B, C) to give players meaningful agency.
         * **Flow:** Ensure the "Leads to Scene [ID]" logic makes sense. Do not create dead ends unless it is an Ending Scene.
-        * **Ending Scenes:** These should have NO choices, only a conclusion text and a "Game Over" or "Victory" status.
+        * **Ending Scenes:** These should have NO choices (empty choices array), only a conclusion text.
+        * **Branch and Converge:** Create meaningful branching paths that can converge or lead to different endings.
 
         **Instructions for Generation:**
-        please generate the game full game, all scenes
+        Generate the complete game with all scenes. Remember: STANDARD is 3 choices per non-ending scene! Give players meaningful options.
 
         **Begin with the Plot Outline and Scene 1.**
     EOF
@@ -134,7 +144,22 @@ module TextBasedGame
         }
       }.to_json
 
-      HTTParty.post(API_URL, headers: headers, body: body, timeout: 120)
+      # Increased timeout to 3 minutes and added retry logic
+      max_retries = 2
+      retry_count = 0
+      
+      begin
+        HTTParty.post(API_URL, headers: headers, body: body, timeout: 300, open_timeout: 30)
+      rescue Net::ReadTimeout, Net::OpenTimeout => e
+        retry_count += 1
+        if retry_count <= max_retries
+          puts "Timeout error (attempt #{retry_count}/#{max_retries + 1}). Retrying..."
+          sleep 2
+          retry
+        else
+          raise e
+        end
+      end
     end
   end
 end
