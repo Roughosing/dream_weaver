@@ -34,11 +34,18 @@ To use placeholder mode, make sure your `.env` has:
 IMAGE_GENERATOR=placeholder
 ```
 
+To use Gemini (default), make sure your `.env` has:
+```
+IMAGE_GENERATOR=gemini
+GEMINI_API_KEY=your_gemini_api_key_here
+```
+
 ## Switching Image Generators
 
 Edit your `.env` file and change `IMAGE_GENERATOR`:
 
 - `placeholder` - No API needed, creates SVG placeholders
+- `gemini` - Requires `GEMINI_API_KEY` (Google Gemini + Nanobanana) - **Default**
 - `dalle3` - Requires `OPENAI_API_KEY`
 - `stability` - Requires `STABILITY_API_KEY`
 - `midjourney` - Requires configuration (see MidjourneyImageGenerator)

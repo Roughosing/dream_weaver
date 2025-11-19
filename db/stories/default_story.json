@@ -1,253 +1,158 @@
 {
-  "title": "The Dragon's Choice",
-  "start_scene": "CROSSROADS",
+  "title": "Star Wars: The Pokemon Saga",
+  "start_scene": "dark_presence",
   "scenes": [
     {
-      "id": "CROSSROADS",
-      "narrative_text": "You stand at a mysterious crossroads. The path to the left disappears into a dark, misty forest. The path to the right leads up a winding mountain trail, glowing faintly in the moonlight. As you contemplate your decision, the ground trembles beneath your feet.",
-      "image_prompt": "A cinematic wide-angle shot of a mysterious crossroads at night. Two paths diverge - one into a dark misty forest, one up a glowing mountain trail. Moonlight illuminates the scene. Fantasy, atmospheric, photorealistic.",
+      "id": "dark_presence",
+      "narrative_text": "A chilling hush falls over the verdant Viridian Forest. Dart Wader, cloaked in menacing black armor and radiating dark energy, stands before a cowering Pikachu. His red lightsaber, crackling with malevolent force, hovers inches from Pikachu's trembling form. You, a brave Squirtle, watch from the undergrowth with your friend Charmander.",
+      "image_prompt": "Dart Wader, a menacing figure in black armor wielding a red lightsaber, confronting a terrified Pikachu in a lush Pokemon forest, dark energy emanating from him, dramatic lighting.",
       "choices": [
         {
-          "text": "Take the left path into the forest",
-          "next_scene": "FOREST"
+          "text": "Leap out and unleash a powerful Water Gun!",
+          "next_scene": "squirtle_attacks"
         },
         {
-          "text": "Take the right path up the mountain",
-          "next_scene": "MOUNTAIN"
-        },
-        {
-          "text": "Wait and see what causes the tremor",
-          "next_scene": "DRAGON_ARRIVAL"
+          "text": "Signal Charmander to flank him while you approach carefully.",
+          "next_scene": "strategize"
         }
       ]
     },
     {
-      "id": "DRAGON_ARRIVAL",
-      "narrative_text": "Suddenly, a massive shadow blocks out the moon. A colossal dragon descends from the sky, landing before you with a thunderous impact. Its scales shimmer like emeralds, and its eyes burn with ancient wisdom. The dragon speaks: 'Choose wisely, traveler. Attack my right side and go left, attack my left side and go right, or flee while you still can.'",
-      "image_prompt": "A cinematic shot of a massive, majestic emerald dragon landing at a crossroads. The dragon is colossal, with shimmering scales and wise, glowing eyes. Moonlight creates dramatic shadows. Fantasy, epic, photorealistic.",
+      "id": "squirtle_attacks",
+      "narrative_text": "You charge forward, firing a concentrated Water Gun! Dart Wader effortlessly deflects it with a wave of his hand, the dark force absorbing your attack. His gaze, cold and unsettling, locks onto you.",
+      "image_prompt": "Squirtle launching a powerful Water Gun at Dart Wader, who easily deflects it with a dark force, intense battle scene in a Pokemon forest.",
       "choices": [
         {
-          "text": "Attack the dragon's right side and go left",
-          "next_scene": "DRAGON_LEFT_PATH"
+          "text": "Prepare for his counter-attack and use Withdraw!",
+          "next_scene": "withdraw_defense"
         },
         {
-          "text": "Attack the dragon's left side and go right",
-          "next_scene": "DRAGON_RIGHT_PATH"
+          "text": "Try to distract him while Charmander attacks from behind.",
+          "next_scene": "distract_charmander"
+        }
+      ]
+    },
+    {
+      "id": "strategize",
+      "narrative_text": "You whisper a quick plan to Charmander, who nods in understanding. The plan: a pincer movement. Charmander bursts from the other side, while you prepare for Dart Wader's retaliation.",
+      "image_prompt": "Squirtle and Charmander whispering and strategizing in dense Pokemon forest undergrowth, observing Dart Wader and Pikachu.",
+      "choices": [
+        {
+          "text": "Focus on defending Pikachu with a powerful Water Shield.",
+          "next_scene": "defend_pikachu"
         },
         {
-          "text": "Run away as fast as you can",
-          "next_scene": "ESCAPE"
+          "text": "Join Charmander in a coordinated attack.",
+          "next_scene": "coordinated_attack"
         }
       ]
     },
     {
-      "id": "FOREST",
-      "narrative_text": "You venture into the dark forest. The mist thickens around you, and strange sounds echo from the shadows. Ancient trees tower overhead, their branches forming a canopy that blocks out the stars. You sense you're not alone.",
-      "image_prompt": "A dark, misty forest at night. Ancient towering trees with gnarled branches. Thick mist swirls between the trees. Mysterious, atmospheric, fantasy, photorealistic.",
+      "id": "withdraw_defense",
+      "narrative_text": "You quickly retreat into your sturdy shell just as Dart Wader unleashes a dark energy blast. It bounces off your hardened defense with a loud 'clang,' leaving him momentarily annoyed. Charmander seizes the opportunity!",
+      "image_prompt": "Squirtle withdrawn into its shell, deflecting a dark energy blast from Dart Wader, Charmander preparing to attack in the background.",
       "choices": [
         {
-          "text": "Continue deeper into the forest",
-          "next_scene": "FOREST_DEEP"
+          "text": "Burst out with a Rapid Spin and strike his exposed side!",
+          "next_scene": "rapid_spin_strike"
         },
         {
-          "text": "Turn back to the crossroads",
-          "next_scene": "CROSSROADS"
+          "text": "Provide cover fire with a Bubble Beam while Charmander attacks.",
+          "next_scene": "bubble_beam_cover"
         }
       ]
     },
     {
-      "id": "MOUNTAIN",
-      "narrative_text": "You begin climbing the mountain path. The trail glows with an ethereal light, and as you ascend, you see ancient runes carved into the stone. The air grows thinner, but you feel a sense of purpose driving you forward.",
-      "image_prompt": "A winding mountain trail at night, glowing with ethereal light. Ancient runes carved into stone walls. Stars visible in the clear sky above. Mystical, fantasy, photorealistic.",
+      "id": "distract_charmander",
+      "narrative_text": "You bark loudly, drawing Dart Wader's full attention. As he prepares to strike you, Charmander lunges from the shadows, unleashing a fierce Ember attack directly at Dart Wader's back!",
+      "image_prompt": "Squirtle barking loudly to distract Dart Wader, who is facing Squirtle, while Charmander attacks with Ember from behind.",
       "choices": [
         {
-          "text": "Continue climbing",
-          "next_scene": "MOUNTAIN_TOP"
+          "text": "Follow up with a Tackle attack on the distracted Wader.",
+          "next_scene": "tackle_follow_up"
         },
         {
-          "text": "Turn back to the crossroads",
-          "next_scene": "CROSSROADS"
+          "text": "Protect Pikachu from any stray dark energy with a Water Pulse.",
+          "next_scene": "protect_pikachu_distract"
         }
       ]
     },
     {
-      "id": "DRAGON_LEFT_PATH",
-      "narrative_text": "You strike at the dragon's right side! The dragon roars in surprise but doesn't retaliate. Instead, it chuckles deeply. 'Bold choice, little one. The left path holds secrets few dare to discover.' The dragon steps aside, and you take the left path into the forest, feeling the dragon's blessing upon you.",
-      "image_prompt": "A brave adventurer attacking a dragon's right side. The dragon looks amused rather than angry. The left forest path visible in the background. Epic fantasy scene, photorealistic.",
+      "id": "defend_pikachu",
+      "narrative_text": "You summon a protective bubble of water around Pikachu just as Dart Wader unleashes a dark Force Push. The shield holds! Charmander rushes in, launching a fiery assault from the flank.",
+      "image_prompt": "Squirtle creating a glowing water shield around Pikachu, protecting from Dart Wader's dark Force Push, Charmander attacking with fire.",
       "choices": [
         {
-          "text": "Enter the forest with the dragon's blessing",
-          "next_scene": "FOREST_BLESSED"
+          "text": "Reinforce the shield while Charmander engages him.",
+          "next_scene": "reinforce_shield"
+        },
+        {
+          "text": "Charge a Hydro Pump for a powerful counter-attack!",
+          "next_scene": "hydro_pump_prepare"
         }
       ]
     },
     {
-      "id": "DRAGON_RIGHT_PATH",
-      "narrative_text": "You strike at the dragon's left side! The dragon's eyes flash with approval. 'Clever! The right path leads to wisdom.' The dragon spreads its wings, creating a gust that propels you toward the mountain path. You feel empowered as you begin your ascent.",
-      "image_prompt": "An adventurer attacking a dragon's left side. The dragon looks approving. The right mountain path glowing in the background. Epic fantasy scene, photorealistic.",
+      "id": "coordinated_attack",
+      "narrative_text": "You and Charmander launch a combined Water Gun and Ember attack! The elemental synergy briefly overwhelms Dart Wader, who stumbles back, giving Pikachu a crucial moment to scramble away from the immediate danger.",
+      "image_prompt": "Squirtle and Charmander unleashing a combined Water Gun and Ember attack on Dart Wader, who is staggering, Pikachu fleeing in the background.",
       "choices": [
         {
-          "text": "Ascend the mountain with newfound power",
-          "next_scene": "MOUNTAIN_EMPOWERED"
+          "text": "Press the attack! Aim for his helmet!",
+          "next_scene": "press_attack"
+        },
+        {
+          "text": "Create a smoke screen with water vapor to cover Pikachu's escape.",
+          "next_scene": "smoke_screen"
         }
       ]
     },
     {
-      "id": "ESCAPE",
-      "narrative_text": "You turn and run! The dragon's laughter echoes behind you. 'Wisdom comes in many forms, traveler. Sometimes, knowing when to retreat is the greatest courage.' You escape safely, but you can't help wondering what adventures you missed.",
-      "image_prompt": "A figure running away from a crossroads. A dragon watches from behind, looking amused rather than threatening. Night scene, fantasy, photorealistic.",
+      "id": "rapid_spin_strike",
+      "narrative_text": "You burst from your shell, spinning rapidly, and strike Dart Wader's leg with surprising force! He roars in frustration, momentarily losing his grip on the dark energy. Charmander seizes the opening, landing a critical Ember attack! Dart Wader, infuriated but momentarily weakened, is forced to retreat into the shadows. Pikachu is safe!",
+      "image_prompt": "Squirtle using Rapid Spin to strike Dart Wader's leg, Dart Wader roaring in frustration, Charmander landing a critical fire attack. Victory scene in Pokemon forest.",
       "choices": []
     },
     {
-      "id": "FOREST_DEEP",
-      "narrative_text": "You push deeper into the forest. The mist parts to reveal an ancient stone circle. In the center, a glowing crystal pulses with energy. This is clearly a place of great power.",
-      "image_prompt": "An ancient stone circle in a misty forest. A glowing crystal pulses in the center. Mystical, atmospheric, fantasy, photorealistic.",
-      "choices": [
-        {
-          "text": "Touch the crystal",
-          "next_scene": "CRYSTAL_POWER"
-        },
-        {
-          "text": "Observe from a distance",
-          "next_scene": "CRYSTAL_OBSERVE"
-        }
-      ]
-    },
-    {
-      "id": "FOREST_BLESSED",
-      "narrative_text": "With the dragon's blessing, the forest welcomes you. The mist parts, revealing a hidden grove filled with glowing flowers. An ancient tree spirit appears before you, offering you a choice: knowledge or power.",
-      "image_prompt": "A hidden grove in a forest, filled with glowing flowers. An ancient tree spirit appears. Magical, ethereal, fantasy, photorealistic.",
-      "choices": [
-        {
-          "text": "Choose knowledge",
-          "next_scene": "ENDING_WISDOM"
-        },
-        {
-          "text": "Choose power",
-          "next_scene": "ENDING_POWER"
-        }
-      ]
-    },
-    {
-      "id": "MOUNTAIN_TOP",
-      "narrative_text": "You reach the summit! Before you stands an ancient temple, its doors glowing with runes. The view is breathtaking, and you feel a sense of accomplishment wash over you.",
-      "image_prompt": "A mountain summit with an ancient glowing temple. Breathtaking view of the landscape below. Stars in the night sky. Epic, fantasy, photorealistic.",
-      "choices": [
-        {
-          "text": "Enter the temple",
-          "next_scene": "TEMPLE"
-        },
-        {
-          "text": "Take in the view",
-          "next_scene": "ENDING_PEACE"
-        }
-      ]
-    },
-    {
-      "id": "MOUNTAIN_EMPOWERED",
-      "narrative_text": "With the dragon's power flowing through you, you leap up the mountain path. The runes on the stones glow brighter as you pass. At the summit, the temple doors swing open of their own accord, welcoming you.",
-      "image_prompt": "A glowing mountain path with bright runes. An adventurer ascending with visible magical energy. Temple doors opening at the summit. Epic, fantasy, photorealistic.",
-      "choices": [
-        {
-          "text": "Enter the open temple",
-          "next_scene": "TEMPLE_OPEN"
-        }
-      ]
-    },
-    {
-      "id": "CRYSTAL_POWER",
-      "narrative_text": "You touch the crystal, and power surges through you! Visions flood your mind - you see possibilities, futures, and the threads of fate. You have gained the gift of foresight.",
-      "image_prompt": "A glowing crystal being touched, with magical energy flowing. Visions and light surrounding the scene. Mystical, fantasy, photorealistic.",
-      "choices": [
-        {
-          "text": "Use your new power",
-          "next_scene": "ENDING_FORESIGHT"
-        }
-      ]
-    },
-    {
-      "id": "CRYSTAL_OBSERVE",
-      "narrative_text": "You watch the crystal from a distance. It pulses rhythmically, and you realize it's a heartbeat - the heartbeat of the forest itself. You have gained deep understanding of nature's ways.",
-      "image_prompt": "A glowing crystal pulsing like a heartbeat. An observer watching from a respectful distance. Forest spirits visible in the mist. Mystical, fantasy, photorealistic.",
-      "choices": [
-        {
-          "text": "Accept this understanding",
-          "next_scene": "ENDING_HARMONY"
-        }
-      ]
-    },
-    {
-      "id": "TEMPLE",
-      "narrative_text": "You enter the temple. Inside, ancient murals tell stories of heroes and dragons. At the center, a pedestal holds a glowing artifact. This is a place of legend.",
-      "image_prompt": "Inside an ancient temple with glowing murals. A pedestal with a glowing artifact in the center. Mystical, fantasy, photorealistic.",
-      "choices": [
-        {
-          "text": "Take the artifact",
-          "next_scene": "ENDING_ARTIFACT"
-        },
-        {
-          "text": "Study the murals",
-          "next_scene": "ENDING_LEGEND"
-        }
-      ]
-    },
-    {
-      "id": "TEMPLE_OPEN",
-      "narrative_text": "The temple welcomes you! The dragon's power resonates with the temple's energy. The artifact floats toward you, recognizing you as worthy. You have become a Dragon Knight.",
-      "image_prompt": "A temple interior with an artifact floating toward a worthy hero. Magical energy flows between them. Epic, fantasy, photorealistic.",
-      "choices": [
-        {
-          "text": "Accept your destiny",
-          "next_scene": "ENDING_DRAGON_KNIGHT"
-        }
-      ]
-    },
-    {
-      "id": "ENDING_WISDOM",
-      "narrative_text": "You chose knowledge, and the tree spirit grants you the wisdom of ages. You become a sage, guiding others with your understanding. Your story becomes legend.",
-      "image_prompt": "A wise sage in a magical grove, surrounded by glowing flowers and forest spirits. Peaceful, mystical, fantasy, photorealistic.",
+      "id": "bubble_beam_cover",
+      "narrative_text": "You unleash a barrage of shimmering Bubble Beam attacks, creating a dazzling diversion. Charmander's powerful Flamethrower engulfs Dart Wader, forcing him to retreat with a frustrated growl, his dark armor singed. Pikachu is safe, thanks to your teamwork!",
+      "image_prompt": "Squirtle firing Bubble Beam for cover, Charmander using Flamethrower on Dart Wader, who is retreating in frustration, Pikachu safe and relieved.",
       "choices": []
     },
     {
-      "id": "ENDING_POWER",
-      "narrative_text": "You chose power, and the tree spirit grants you the strength of the forest itself. You become a guardian of nature, protecting the wild places. Your legend grows.",
-      "image_prompt": "A powerful guardian of nature, surrounded by forest magic. Strong, mystical, fantasy, photorealistic.",
+      "id": "tackle_follow_up",
+      "narrative_text": "As Charmander's Ember hits, you rush in with a powerful Tackle! Dart Wader is knocked back, surprised by the coordinated assault. He glares at you and Charmander, then, with a snarl, retreats into the shadows, vowing revenge. Pikachu is safe!",
+      "image_prompt": "Squirtle using Tackle on a distracted Dart Wader, Charmander's Ember still visible, Dart Wader retreating into shadows, Pikachu relieved.",
       "choices": []
     },
     {
-      "id": "ENDING_PEACE",
-      "narrative_text": "You sit at the summit, taking in the breathtaking view. Sometimes, the greatest adventure is finding peace. You return home with a heart full of wonder.",
-      "image_prompt": "A peaceful scene at a mountain summit. A figure sitting, looking at a beautiful landscape. Serene, fantasy, photorealistic.",
+      "id": "protect_pikachu_distract",
+      "narrative_text": "You leap in front of Pikachu, bracing for impact. Dart Wader's deflected dark energy harmlessly strikes your sturdy shell. Charmander's fierce attack forces Dart Wader to focus his attention on the fire, giving him no choice but to retreat in frustration. Pikachu is safe!",
+      "image_prompt": "Squirtle shielding Pikachu from dark energy, Charmander fiercely attacking Dart Wader with fire, Dart Wader retreating, Pikachu safe.",
       "choices": []
     },
     {
-      "id": "ENDING_FORESIGHT",
-      "narrative_text": "With the gift of foresight, you see the paths ahead clearly. You become a seer, helping others navigate their destinies. Your name is remembered for generations.",
-      "image_prompt": "A seer with glowing eyes, seeing visions of the future. Mystical, fantasy, photorealistic.",
+      "id": "reinforce_shield",
+      "narrative_text": "You focus your energy, strengthening the water shield around Pikachu. Charmander's relentless fire attack overwhelms Dart Wader, who snarls and disappears into the forest, vowing his return. Pikachu is saved!",
+      "image_prompt": "Squirtle reinforcing a water shield around Pikachu, Charmander launching a relentless fire attack on Dart Wader, who retreats into a dark forest.",
       "choices": []
     },
     {
-      "id": "ENDING_HARMONY",
-      "narrative_text": "You have learned to live in harmony with nature. The forest accepts you as one of its own. You become a druid, bridging the worlds of civilization and wilderness.",
-      "image_prompt": "A druid in harmony with nature, surrounded by forest creatures and spirits. Peaceful, mystical, fantasy, photorealistic.",
+      "id": "hydro_pump_prepare",
+      "narrative_text": "You unleash a devastating Hydro Pump, directly hitting Dart Wader and sending him skidding backwards! Charmander follows up with a finishing Ember, forcing Dart Wader to flee in defeat, his dark plans thwarted for now. Pikachu is safe!",
+      "image_prompt": "Squirtle unleashing a powerful Hydro Pump on Dart Wader, Charmander following with Ember, Dart Wader fleeing in defeat, Pikachu safe and relieved.",
       "choices": []
     },
     {
-      "id": "ENDING_ARTIFACT",
-      "narrative_text": "You take the artifact, and its power flows through you. You have become a hero of legend, destined to protect the realm. Your adventure is just beginning.",
-      "image_prompt": "A hero holding a glowing artifact, power radiating from them. Epic, fantasy, photorealistic.",
+      "id": "press_attack",
+      "narrative_text": "You and Charmander press your advantage, striking Dart Wader's helmet with combined attacks. The dark lord stumbles, letting out an angered roar of pure frustration. He then retreats, defeated, vowing to return another day. Pikachu is safe, and the forest breathes a sigh of relief!",
+      "image_prompt": "Squirtle and Charmander attacking Dart Wader's helmet, Dart Wader stumbling and roaring, then retreating into the shadows, Pikachu safe.",
       "choices": []
     },
     {
-      "id": "ENDING_LEGEND",
-      "narrative_text": "You study the murals and learn the ancient stories. You become a scholar of legends, preserving the tales of heroes past. Knowledge is your greatest treasure.",
-      "image_prompt": "A scholar in an ancient temple, studying glowing murals. Wise, mystical, fantasy, photorealistic.",
-      "choices": []
-    },
-    {
-      "id": "ENDING_DRAGON_KNIGHT",
-      "narrative_text": "You accept the artifact and the dragon's blessing. You have become a Dragon Knight, a legendary warrior bonded with dragonkind. Your name will echo through history.",
-      "image_prompt": "A Dragon Knight in glowing armor, holding a powerful artifact. A dragon visible in the background. Epic, fantasy, photorealistic.",
+      "id": "smoke_screen",
+      "narrative_text": "You create a dense fog of water vapor, disorienting Dart Wader. Charmander quickly guides Pikachu to safety through the obscuring mist. Dart Wader roars in frustration at their escape, his dark plans thwarted. Pikachu is safe!",
+      "image_prompt": "Squirtle creating a dense smoke screen with water vapor, Charmander guiding Pikachu through the mist, Dart Wader roaring in frustration, Pikachu safe.",
       "choices": []
     }
   ]
