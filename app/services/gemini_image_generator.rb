@@ -12,11 +12,16 @@ class GeminiImageGenerator < ImageGeneratorBase
     'this image will be used for text based game with visuals. It should give enough context of what is going on. do not draw any texts, draw emotions instead to express feelings. Images should not be abstract. REflect actions, or dialogues, or emotions. Suspense. Drama. Conflict.'
   end
 
+  # Override to prepend the system prompt for more accurate logging and better separation of concerns
+  def build_prompt_with_context(prompt, context)
+    base_prompt = super(prompt, context)
+    "#{system_prompt}\n#{base_prompt}"
+  end
+
   def call_api(prompt)
     require 'net/http'
     require 'json'
 
-    full_prompt = system_prompt + "\n" + prompt
     uri = URI(@api_url)
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
@@ -31,13 +36,23 @@ class GeminiImageGenerator < ImageGeneratorBase
     request_body = {
       contents: [{
         parts: [
-          { text: full_prompt }
+          { text: prompt }
         ]
       }]
     }
     request.body = request_body.to_json
 
     response = http.request(request)
+
+    unless response.is_a?(Net::HTTPSuccess)
+      Rails.logger.error "Gemini API HTTP Error: #{response.code} #{response.message}"
+      Rails.logger.error "Gemini API Response: #{response.body}"
+      Rails.logger.error "Gemini API Payload: #{request_body.to_json}"
+      # If it's a server error, raise an exception that will be retried
+      raise Net::ReadTimeout, "Gemini API returned a server error: #{response.code}" if response.is_a?(Net::HTTPServerError)
+      return nil # For client errors (4xx), don't retry
+    end
+
     result = JSON.parse(response.body)
 
     if result.key?('error')
