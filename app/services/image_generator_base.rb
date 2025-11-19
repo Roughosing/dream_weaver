@@ -12,13 +12,26 @@ class ImageGeneratorBase
   # Returns the path to the image file
   def generate(prompt, scene_id)
     cached_image = get_cached_image(scene_id)
-    return cached_image if cached_image
+    if cached_image
+      Rails.logger.debug "Image cache HIT for scene '#{scene_id}': #{cached_image}"
+      return cached_image
+    end
+
+    Rails.logger.info "Image cache MISS for scene '#{scene_id}'. Generating with #{self.class.name}."
+    Rails.logger.debug "Image prompt: #{prompt}"
 
     # Generate new image
     image_data = call_api(prompt)
-    
+
+    if image_data.blank?
+      Rails.logger.error "Image generation failed: API returned no data for scene '#{scene_id}'."
+      return nil
+    end
+
     # Save and cache
-    save_image(image_data, scene_id)
+    path = save_image(image_data, scene_id)
+    Rails.logger.info "Image successfully generated and saved to #{path}"
+    path
   end
 
   protected
