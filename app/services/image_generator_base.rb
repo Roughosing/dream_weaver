@@ -10,20 +10,22 @@ class ImageGeneratorBase
 
   # Main method to generate or retrieve an image
   # Returns the path to the image file
-  def generate(prompt, scene_id)
+  def generate(prompt, scene_id, context = {})
     cached_image = get_cached_image(scene_id)
     if cached_image
       Rails.logger.debug "Image cache HIT for scene '#{scene_id}': #{cached_image}"
       return cached_image
     end
 
+    full_prompt = build_prompt_with_context(prompt, context)
+
     Rails.logger.info "Image cache MISS for scene '#{scene_id}'. Generating with #{self.class.name}."
-    Rails.logger.debug "Image prompt: #{prompt}"
+    Rails.logger.debug "Image prompt: #{full_prompt}"
 
     # Generate new image
     image_data = nil
     begin
-      image_data = call_api(prompt)
+      image_data = call_api(full_prompt)
     rescue Net::OpenTimeout, Net::ReadTimeout, Faraday::TimeoutError => e
       Rails.logger.error "Image generation timed out for scene '#{scene_id}': #{e.class} - #{e.message}"
       return nil
@@ -45,6 +47,15 @@ class ImageGeneratorBase
   # Override this method in subclasses to call the specific API
   def call_api(prompt)
     raise NotImplementedError, "Subclasses must implement #call_api"
+  end
+
+  def build_prompt_with_context(prompt, context)
+    choices_text = context[:previous_choices]
+    if choices_text.present?
+      "#{prompt}\n\nCONTEXT FROM PREVIOUS CHOICES: #{choices_text}"
+    else
+      prompt
+    end
   end
 
   # Override this method if the API returns data in a different format

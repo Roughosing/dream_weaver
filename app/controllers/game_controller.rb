@@ -47,6 +47,15 @@ class GameController < ApplicationController
 
   def generate_or_get_image(scene)
     image_generator = ImageGeneratorFactory.create
-    image_generator.generate(scene['image_prompt'], scene['id'])
+
+    # Build a context string from the text of previous choices
+    previous_choices_text = session[:choices_made].map do |choice_info|
+      previous_scene = @story['scenes'].find { |s| s['id'] == choice_info['scene'] }
+      if previous_scene
+        previous_scene['choices'][choice_info['choice']]['text']
+      end
+    end.compact.join('. ')
+
+    image_generator.generate(scene['image_prompt'], scene['id'], { previous_choices: previous_choices_text })
   end
 end
