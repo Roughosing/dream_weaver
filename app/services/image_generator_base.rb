@@ -21,7 +21,13 @@ class ImageGeneratorBase
     Rails.logger.debug "Image prompt: #{prompt}"
 
     # Generate new image
-    image_data = call_api(prompt)
+    image_data = nil
+    begin
+      image_data = call_api(prompt)
+    rescue Net::OpenTimeout, Net::ReadTimeout, Faraday::TimeoutError => e
+      Rails.logger.error "Image generation timed out for scene '#{scene_id}': #{e.class} - #{e.message}"
+      return nil
+    end
 
     if image_data.blank?
       Rails.logger.error "Image generation failed: API returned no data for scene '#{scene_id}'."

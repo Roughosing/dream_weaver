@@ -3,7 +3,7 @@ require 'openai'
 class Dalle3ImageGenerator < ImageGeneratorBase
   def initialize(options = {})
     super(options)
-    @client = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
+    @client = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'], request_timeout: 60)
   end
 
   protected
