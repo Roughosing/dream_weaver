@@ -15,6 +15,8 @@ class GeminiImageGenerator < ImageGeneratorBase
     uri = URI(@api_url)
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
+    # In development, disable SSL verification to avoid local certificate errors.
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE if Rails.env.development?
 
     request = Net::HTTP::Post.new(uri)
     request['x-goog-api-key'] = @api_key
