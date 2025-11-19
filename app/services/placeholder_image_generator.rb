@@ -36,8 +36,20 @@ class PlaceholderImageGenerator < ImageGeneratorBase
       file << image_data
     end
     
-    # Return PNG path (browser will handle SVG)
+    # Return path to the SVG
     "/images/generated/#{scene_id}.svg"
+  end
+
+  protected
+
+  # Override to check for SVG files instead of PNG
+  def get_cached_image(scene_id)
+    cached_path = @cache_dir.join("#{scene_id}.svg")
+    
+    if File.exist?(cached_path)
+      return "/images/generated/#{scene_id}.svg"
+    end
+    nil
   end
 end
 

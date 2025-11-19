@@ -55,17 +55,14 @@ class ImageGeneratorBase
     "/images/generated/#{scene_id}.png"
   end
 
-  private
+  protected
 
   def get_cached_image(scene_id)
-    # Check for PNG first, then SVG
-    cached_path_png = @cache_dir.join("#{scene_id}.png")
-    cached_path_svg = @cache_dir.join("#{scene_id}.svg")
+    # Default generator checks for PNG files
+    cached_path = @cache_dir.join("#{scene_id}.png")
     
-    if File.exist?(cached_path_png)
+    if File.exist?(cached_path)
       return "/images/generated/#{scene_id}.png"
-    elsif File.exist?(cached_path_svg)
-      return "/images/generated/#{scene_id}.svg"
     end
     nil
   end
