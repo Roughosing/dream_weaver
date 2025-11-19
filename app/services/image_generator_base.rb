@@ -74,7 +74,7 @@ class ImageGeneratorBase
     # Default generator checks for PNG files
     cached_path = @cache_dir.join("#{scene_id}.png")
     
-    if File.exist?(cached_path)
+    if File.exist?(cached_path) && File.mtime(cached_path) > 10.seconds.ago
       return "/images/generated/#{scene_id}.png"
     end
     nil

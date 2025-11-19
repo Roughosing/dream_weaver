@@ -46,7 +46,7 @@ class PlaceholderImageGenerator < ImageGeneratorBase
   def get_cached_image(scene_id)
     cached_path = @cache_dir.join("#{scene_id}.svg")
     
-    if File.exist?(cached_path)
+    if File.exist?(cached_path) && File.mtime(cached_path) > 10.seconds.ago
       return "/images/generated/#{scene_id}.svg"
     end
     nil
