@@ -47,7 +47,9 @@ class GeminiImageGenerator < ImageGeneratorBase
       return nil
     end
 
-    base64_data = result.dig('candidates', 0, 'content', 'parts', 0, 'inlineData', 'data')
+    parts = result.dig('candidates', 0, 'content', 'parts')
+    image_part = parts&.find { |part| part.key?('inlineData') }
+    base64_data = image_part&.dig('inlineData', 'data')
 
     unless base64_data
       Rails.logger.error 'Gemini API Error: Could not find image data in response.'
