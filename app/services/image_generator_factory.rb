@@ -10,6 +10,8 @@ class ImageGeneratorFactory
       MidjourneyImageGenerator.new
     when :stability
       StabilityImageGenerator.new
+    when :gemini
+      GeminiImageGenerator.new
     when :placeholder
       PlaceholderImageGenerator.new
     else
