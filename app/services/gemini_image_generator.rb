@@ -9,7 +9,7 @@ class GeminiImageGenerator < ImageGeneratorBase
   protected
 
   def system_prompt
-    'this image will be used for text based game with visuals. It should give enough context of what is going on.'
+    'this image will be used for text based game with visuals. It should give enough context of what is going on. do not draw any texts, draw emotions instead to express feelings. Images should not be abstract. REflect actions, or dialogues, or emotions. Suspense. Drama. Conflict.'
   end
 
   def call_api(prompt)
