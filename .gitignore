@@ -23,6 +23,10 @@
 !/storage/.keep
 /storage/images/generated/*
 
+# Ignore generated game images
+/public/images/generated/*
+!/public/images/generated/.keep
+
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
