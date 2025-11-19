@@ -23,19 +23,34 @@ class GeminiImageGenerator < ImageGeneratorBase
     request = Net::HTTP::Post.new(uri)
     request['x-goog-api-key'] = @api_key
     request['Content-Type'] = 'application/json'
-    request.body = {
+    request_body = {
       contents: [{
         parts: [
           { text: prompt }
         ]
       }]
-    }.to_json
+    }
+    request.body = request_body.to_json
 
     response = http.request(request)
     result = JSON.parse(response.body)
-    
-    # The response structure for Gemini image generation is typically nested.
-    # This extracts the base64 encoded image data.
-    result.dig('candidates', 0, 'content', 'parts', 0, 'inlineData', 'data')
+
+    if result.key?('error')
+      Rails.logger.error "Gemini API Error: #{result.dig('error', 'message')}"
+      Rails.logger.error "Gemini API Response: #{response.body}"
+      Rails.logger.error "Gemini API Payload: #{request_body.to_json}"
+      return nil
+    end
+
+    base64_data = result.dig('candidates', 0, 'content', 'parts', 0, 'inlineData', 'data')
+
+    unless base64_data
+      Rails.logger.error "Gemini API Error: Could not find image data in response."
+      Rails.logger.error "Gemini API Response: #{response.body}"
+      Rails.logger.error "Gemini API Payload: #{request_body.to_json}"
+      return nil
+    end
+
+    base64_data
   end
 end

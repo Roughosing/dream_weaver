@@ -9,16 +9,19 @@ class Dalle3ImageGenerator < ImageGeneratorBase
   protected
 
   def call_api(prompt)
-    response = @client.images.generate(
-      parameters: {
-        model: "dall-e-3",
-        prompt: prompt,
-        size: "1024x1024",
-        quality: "standard",
-        n: 1
-      }
-    )
+    parameters = {
+      model: "dall-e-3",
+      prompt: prompt,
+      size: "1024x1024",
+      quality: "standard",
+      n: 1
+    }
+    response = @client.images.generate(parameters: parameters)
 
     response.dig("data", 0, "url")
+  rescue OpenAI::Error => e
+    Rails.logger.error "DALL-E 3 API Error: #{e.message}"
+    Rails.logger.error "DALL-E 3 Payload: #{parameters.to_json}"
+    nil
   end
 end

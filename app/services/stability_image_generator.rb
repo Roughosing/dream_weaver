@@ -23,28 +23,37 @@ class StabilityImageGenerator < ImageGeneratorBase
     request = Net::HTTP::Post.new(uri)
     request['Authorization'] = "Bearer #{@api_key}"
     request['Content-Type'] = 'application/json'
-    request.body = {
+    request_body = {
       text_prompts: [{ text: prompt }],
       cfg_scale: 7,
       height: 1024,
       width: 1024,
       steps: 30,
       samples: 1
-    }.to_json
+    }
+    request.body = request_body.to_json
 
     response = http.request(request)
+
+    unless response.is_a?(Net::HTTPSuccess)
+      Rails.logger.error "Stability API Error: #{response.code} #{response.message}"
+      Rails.logger.error "Stability API Response: #{response.body}"
+      Rails.logger.error "Stability API Payload: #{request_body.to_json}"
+      return nil
+    end
+
     result = JSON.parse(response.body)
-    
-    # Stability AI returns base64 encoded image
-    result.dig('artifacts', 0, 'base64')
+
+    base64_data = result.dig('artifacts', 0, 'base64')
+
+    unless base64_data
+      Rails.logger.error "Stability API Error: Could not find image data in response."
+      Rails.logger.error "Stability API Response: #{response.body}"
+      Rails.logger.error "Stability API Payload: #{request_body.to_json}"
+      return nil
+    end
+
+    base64_data
   end
 
-  def save_image(image_data, scene_id)
-    require 'base64'
-    file_path = @cache_dir.join("#{scene_id}.png")
-    File.open(file_path, 'wb') do |file|
-      file << Base64.decode64(image_data)
-    end
-    file_path
-  end
 end
