@@ -1,133 +1,249 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Dream Weaver - Generate Your Story</title>
+  <title>Dream Weaver - Story Generator Terminal</title>
   <%= stylesheet_link_tag 'game', media: 'all' %>
   <style>
+    body {
+      background: #000000;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    body::before {
+      content: " ";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+      z-index: 2;
+      background-size: 100% 2px, 3px 100%;
+      pointer-events: none;
+      animation: flicker 0.15s infinite;
+    }
+    
     .generator-container {
-      max-width: 800px;
-      margin: 50px auto;
-      padding: 40px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      max-width: 1000px;
+      width: 90vw;
+      margin: 0 auto;
+      padding: 30px;
+      background: #0a0a0a;
+      border: 3px solid #00ff00;
+      box-shadow: 
+        inset 0 0 100px rgba(0, 255, 0, 0.05),
+        0 0 50px rgba(0, 255, 0, 0.3);
+      position: relative;
+      z-index: 3;
+    }
+    
+    .generator-container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 100%);
+      pointer-events: none;
+      z-index: -1;
     }
     
     .generator-title {
       text-align: center;
-      color: white;
-      font-size: 48px;
-      margin-bottom: 10px;
+      color: #00ff00;
+      font-size: 32px;
+      margin-bottom: 15px;
       font-weight: bold;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      font-family: 'Courier New', 'Consolas', 'Monaco', monospace;
+    }
+    
+    .ascii-art {
+      text-align: center;
+      color: #00aa00;
+      font-size: 10px;
+      line-height: 1;
+      margin-bottom: 20px;
+      font-family: 'Courier New', 'Consolas', 'Monaco', monospace;
+      white-space: pre;
+      text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
     }
     
     .generator-subtitle {
       text-align: center;
-      color: rgba(255,255,255,0.9);
-      font-size: 20px;
-      margin-bottom: 40px;
+      color: #00ff00;
+      font-size: 16px;
+      margin-bottom: 30px;
+      letter-spacing: 2px;
+      text-shadow: 0 0 5px rgba(0, 255, 0, 0.6);
+      border-top: 1px solid #00aa00;
+      border-bottom: 1px solid #00aa00;
+      padding: 10px 0;
     }
     
     .prompt-form {
-      background: white;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      background: rgba(0, 20, 0, 0.3);
+      padding: 25px;
+      border: 2px solid #00aa00;
     }
     
     .prompt-label {
       display: block;
-      font-size: 18px;
-      font-weight: 600;
-      color: #333;
+      font-size: 16px;
+      font-weight: bold;
+      color: #00ff00;
       margin-bottom: 15px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-shadow: 0 0 5px rgba(0, 255, 0, 0.6);
+    }
+    
+    .prompt-label::before {
+      content: "> ";
     }
     
     .prompt-textarea {
       width: 100%;
-      min-height: 150px;
-      font-size: 16px;
-      border: 2px solid #e0e0e0;
-      border-radius: 10px;
+      min-height: 120px;
+      font-size: 15px;
+      border: 2px solid #00aa00;
+      background: #000000;
+      color: #00ff00;
       resize: vertical;
-      font-family: inherit;
-      transition: border-color 0.3s;
+      font-family: 'Courier New', 'Consolas', 'Monaco', monospace;
+      padding: 12px;
+      box-sizing: border-box;
+      text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+      letter-spacing: 0.5px;
     }
     
     .prompt-textarea:focus {
       outline: none;
-      border-color: #667eea;
+      border-color: #00ff00;
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+    }
+    
+    .prompt-textarea::placeholder {
+      color: #006600;
     }
     
     .prompt-examples {
       margin: 20px 0;
       padding: 15px;
-      background: #f8f9fa;
-      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid #00aa00;
     }
     
     .examples-title {
-      font-weight: 600;
-      margin-bottom: 10px;
-      color: #555;
+      font-weight: bold;
+      margin-bottom: 12px;
+      color: #00ff00;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 14px;
+      text-shadow: 0 0 5px rgba(0, 255, 0, 0.6);
     }
     
     .example-item {
-      margin: 8px 0;
-      padding: 8px 12px;
-      background: white;
-      border-left: 3px solid #667eea;
-      border-radius: 5px;
+      margin: 10px 0;
+      padding: 10px 15px;
+      background: #000000;
+      border: 1px solid #006600;
+      border-left: 3px solid #00aa00;
       font-size: 14px;
-      color: #666;
+      color: #00ff00;
       cursor: pointer;
       transition: all 0.2s;
+      font-family: 'Courier New', 'Consolas', 'Monaco', monospace;
+      letter-spacing: 0.5px;
+    }
+    
+    .example-item::before {
+      content: "[";
+      margin-right: 5px;
+    }
+    
+    .example-item::after {
+      content: "]";
+      margin-left: 5px;
     }
     
     .example-item:hover {
-      background: #f0f0f0;
+      background: rgba(0, 255, 0, 0.1);
+      border-color: #00ff00;
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
       transform: translateX(5px);
+      text-shadow: 0 0 8px rgba(0, 255, 0, 0.8);
     }
     
     .generate-button {
       width: 100%;
       padding: 18px;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: bold;
-      color: white;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border: none;
-      border-radius: 10px;
+      color: #00ff00;
+      background: #000000;
+      border: 2px solid #00aa00;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: all 0.2s;
       margin-top: 20px;
+      font-family: 'Courier New', 'Consolas', 'Monaco', monospace;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow: 0 0 5px rgba(0, 255, 0, 0.6);
     }
     
     .generate-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+      background: rgba(0, 255, 0, 0.15);
+      border-color: #00ff00;
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+      text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
     }
     
     .generate-button:active {
-      transform: translateY(0);
+      background: rgba(0, 255, 0, 0.25);
     }
     
     .flash-error {
-      background: #ff4444;
-      color: white;
+      background: rgba(255, 0, 0, 0.2);
+      color: #ff3333;
+      border: 2px solid #ff0000;
       padding: 15px;
-      border-radius: 10px;
       margin-bottom: 20px;
       text-align: center;
+      font-family: 'Courier New', 'Consolas', 'Monaco', monospace;
+      text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+      letter-spacing: 1px;
+    }
+    
+    .flash-error::before {
+      content: "[ERROR] ";
+      font-weight: bold;
     }
     
     .loading-text {
       text-align: center;
-      color: #667eea;
+      color: #00ff00;
       font-size: 16px;
       margin-top: 15px;
       display: none;
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px rgba(0, 255, 0, 0.8);
+      animation: blink 1s infinite;
+    }
+    
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0.3; }
     }
     
     .form-submitting .loading-text {
@@ -135,15 +251,28 @@
     }
     
     .form-submitting .generate-button {
-      background: #999;
+      background: rgba(0, 100, 0, 0.3);
+      border-color: #006600;
       cursor: not-allowed;
+      color: #006600;
     }
   </style>
 </head>
-<body style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; margin: 0;">
+<body>
   <div class="generator-container">
-    <h1 class="generator-title">🎮 Dream Weaver</h1>
-    <p class="generator-subtitle">Create your own AI-powered visual novel adventure</p>
+    <div class="ascii-art">
+╔════════════════════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                                    ║
+║  ██████╗ ██████╗ ███████╗ █████╗ ███╗   ███╗  ██╗    ██╗███████╗ █████╗ ██╗   ██╗███████╗██████╗   ║
+║  ██╔══██╗██╔══██╗██╔════╝██╔══██╗████╗ ████║  ██║    ██║██╔════╝██╔══██╗██║   ██║██╔════╝██╔══██╗  ║
+║  ██║  ██║██████╔╝█████╗  ███████║██╔████╔██║  ██║ █╗ ██║█████╗  ███████║██║   ██║█████╗  ██████╔╝  ║
+║  ██║  ██║██╔══██╗██╔══╝  ██╔══██║██║╚██╔╝██║  ██║███╗██║██╔══╝  ██╔══██║╚██╗ ██╔╝██╔══╝  ██╔══██╗  ║
+║  ██████╔╝██║  ██║███████╗██║  ██║██║ ╚═╝ ██║  ╚███╔███╔╝███████╗██║  ██║ ╚████╔╝ ███████╗██║  ██║  ║
+║  ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝   ╚══╝╚══╝ ╚══════╝╚═╝  ╚═╝  ╚═══╝  ╚══════╝╚═╝  ╚═╝  ║
+║                                                                                                    ║
+╚════════════════════════════════════════════════════════════════════════════════════════════════════╝
+    </div>
+    <p class="generator-subtitle">[ AI-POWERED TEXT ADVENTURE GENERATOR v1.0 ]</p>
     
     <% if flash[:error] %>
       <div class="flash-error">
@@ -153,34 +282,34 @@
     
     <%= form_with url: create_story_path, method: :post, class: "prompt-form", id: "story-form" do |f| %>
       <label class="prompt-label" for="prompt">
-        What kind of adventure do you want to experience?
+        Enter Adventure Parameters
       </label>
       
       <%= text_area_tag :prompt, params[:prompt], 
-          placeholder: "Example: A cyberpunk detective story set in Neo-Tokyo where I'm investigating mysterious AI disappearances...",
+          placeholder: "A cyberpunk detective story set in Neo-Tokyo where I'm investigating mysterious AI disappearances...",
           class: "prompt-textarea",
           required: true %>
       
       <div class="prompt-examples">
-        <div class="examples-title">💡 Try these examples (click to use):</div>
+        <div class="examples-title">[ Sample Adventures - Click to Load ]</div>
         <div class="example-item" onclick="setPrompt('A space pirate adventure where I discover an ancient alien artifact that grants mysterious powers')">
-          🚀 Space pirate discovering alien artifact
+          PROTOCOL_01: Space pirate discovering alien artifact
         </div>
         <div class="example-item" onclick="setPrompt('A medieval fantasy where I am a young wizard apprentice uncovering a conspiracy in the magic academy')">
-          🧙 Wizard apprentice mystery at magic academy
+          PROTOCOL_02: Wizard apprentice mystery at magic academy
         </div>
         <div class="example-item" onclick="setPrompt('A post-apocalyptic survival story where I must lead a group of survivors to a rumored safe haven')">
-          🌍 Post-apocalyptic survival journey
+          PROTOCOL_03: Post-apocalyptic survival journey
         </div>
         <div class="example-item" onclick="setPrompt('A noir detective story in 1940s Los Angeles investigating a murder case involving Hollywood stars')">
-          🕵️ Noir detective in 1940s Hollywood
+          PROTOCOL_04: Noir detective in 1940s Hollywood
         </div>
       </div>
       
-      <%= submit_tag "Generate My Adventure", class: "generate-button", data: { disable_with: "🎨 Generating your story..." } %>
+      <%= submit_tag "[ INITIALIZE ADVENTURE ]", class: "generate-button", data: { disable_with: "[ GENERATING STORY... ]" } %>
       
       <div class="loading-text">
-        ✨ Creating your unique adventure... This may take 30-60 seconds ✨
+        [ PROCESSING... PLEASE WAIT WHILE WE CREATE YOUR ADVENTURE ]
       </div>
     <% end %>
   </div>
