@@ -1,7 +1,7 @@
 # Factory to create the appropriate image generator based on configuration
 class ImageGeneratorFactory
   def self.create
-    generator_type = Rails.application.config.image_generator || :dalle3
+    generator_type = Rails.application.config.image_generator || :gemini
     
     case generator_type
     when :dalle3
@@ -10,6 +10,8 @@ class ImageGeneratorFactory
       MidjourneyImageGenerator.new
     when :stability
       StabilityImageGenerator.new
+    when :gemini
+      GeminiImageGenerator.new
     when :placeholder
       PlaceholderImageGenerator.new
     else

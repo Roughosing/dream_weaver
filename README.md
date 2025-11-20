@@ -14,7 +14,8 @@ An immersive, web-based visual novel where the story and art are created dynamic
 - **Framework**: Ruby on Rails 7.1
 - **AI Services**: 
   - OpenAI (ChatGPT & DALL-E 3)
-  - Pluggable image generators (DALL-E 3, Midjourney, Stability AI, Placeholder)
+  - Google Gemini + Nanobanana (for enhanced image generation)
+  - Pluggable image generators (DALL-E 3, Midjourney, Stability AI, Gemini, Placeholder)
 
 ## Setup
 
@@ -26,8 +27,8 @@ An immersive, web-based visual novel where the story and art are created dynamic
 2. **Set up environment variables**:
    Create a `.env` file in the root directory:
    ```bash
-   OPENAI_API_KEY=your_openai_api_key_here
-   IMAGE_GENERATOR=placeholder  # Options: placeholder, dalle3, midjourney, stability
+   GEMINI_API_KEY=your_gemini_api_key_here
+   IMAGE_GENERATOR=gemini  # Options: placeholder, dalle3, midjourney, stability, gemini
    ```
 
 3. **Create necessary directories**:
@@ -48,6 +49,7 @@ The app uses a pluggable image generator system. To switch generators, set the `
 
 - `placeholder` - Simple placeholder images (for development/testing)
 - `dalle3` - DALL-E 3 via OpenAI API (requires `OPENAI_API_KEY`)
+- `gemini` - Google Gemini + Nanobanana (requires `GEMINI_API_KEY`) - **Default**
 - `midjourney` - Midjourney via third-party service (requires configuration)
 - `stability` - Stability AI Stable Diffusion (requires `STABILITY_API_KEY`)
 

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dream Weaver - Generate Your Story</title>
+  <%= stylesheet_link_tag 'game', media: 'all' %>
+  <style>
+    .generator-container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 40px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    
+    .generator-title {
+      text-align: center;
+      color: white;
+      font-size: 48px;
+      margin-bottom: 10px;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .generator-subtitle {
+      text-align: center;
+      color: rgba(255,255,255,0.9);
+      font-size: 20px;
+      margin-bottom: 40px;
+    }
+    
+    .prompt-form {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    
+    .prompt-label {
+      display: block;
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 15px;
+    }
+    
+    .prompt-textarea {
+      width: 100%;
+      min-height: 150px;
+      font-size: 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      resize: vertical;
+      font-family: inherit;
+      transition: border-color 0.3s;
+    }
+    
+    .prompt-textarea:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+    
+    .prompt-examples {
+      margin: 20px 0;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 10px;
+    }
+    
+    .examples-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #555;
+    }
+    
+    .example-item {
+      margin: 8px 0;
+      padding: 8px 12px;
+      background: white;
+      border-left: 3px solid #667eea;
+      border-radius: 5px;
+      font-size: 14px;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .example-item:hover {
+      background: #f0f0f0;
+      transform: translateX(5px);
+    }
+    
+    .generate-button {
+      width: 100%;
+      padding: 18px;
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 20px;
+    }
+    
+    .generate-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+    
+    .generate-button:active {
+      transform: translateY(0);
+    }
+    
+    .flash-error {
+      background: #ff4444;
+      color: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .loading-text {
+      text-align: center;
+      color: #667eea;
+      font-size: 16px;
+      margin-top: 15px;
+      display: none;
+    }
+    
+    .form-submitting .loading-text {
+      display: block;
+    }
+    
+    .form-submitting .generate-button {
+      background: #999;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; margin: 0;">
+  <div class="generator-container">
+    <h1 class="generator-title">🎮 Dream Weaver</h1>
+    <p class="generator-subtitle">Create your own AI-powered visual novel adventure</p>
+    
+    <% if flash[:error] %>
+      <div class="flash-error">
+        <%= flash[:error] %>
+      </div>
+    <% end %>
+    
+    <%= form_with url: create_story_path, method: :post, class: "prompt-form", id: "story-form" do |f| %>
+      <label class="prompt-label" for="prompt">
+        What kind of adventure do you want to experience?
+      </label>
+      
+      <%= text_area_tag :prompt, params[:prompt], 
+          placeholder: "Example: A cyberpunk detective story set in Neo-Tokyo where I'm investigating mysterious AI disappearances...",
+          class: "prompt-textarea",
+          required: true %>
+      
+      <div class="prompt-examples">
+        <div class="examples-title">💡 Try these examples (click to use):</div>
+        <div class="example-item" onclick="setPrompt('A space pirate adventure where I discover an ancient alien artifact that grants mysterious powers')">
+          🚀 Space pirate discovering alien artifact
+        </div>
+        <div class="example-item" onclick="setPrompt('A medieval fantasy where I am a young wizard apprentice uncovering a conspiracy in the magic academy')">
+          🧙 Wizard apprentice mystery at magic academy
+        </div>
+        <div class="example-item" onclick="setPrompt('A post-apocalyptic survival story where I must lead a group of survivors to a rumored safe haven')">
+          🌍 Post-apocalyptic survival journey
+        </div>
+        <div class="example-item" onclick="setPrompt('A noir detective story in 1940s Los Angeles investigating a murder case involving Hollywood stars')">
+          🕵️ Noir detective in 1940s Hollywood
+        </div>
+      </div>
+      
+      <%= submit_tag "Generate My Adventure", class: "generate-button", data: { disable_with: "🎨 Generating your story..." } %>
+      
+      <div class="loading-text">
+        ✨ Creating your unique adventure... This may take 30-60 seconds ✨
+      </div>
+    <% end %>
+  </div>
+  
+  <script>
+    function setPrompt(text) {
+      document.getElementById('prompt').value = text;
+    }
+    
+    document.getElementById('story-form').addEventListener('submit', function() {
+      this.classList.add('form-submitting');
+    });
+  </script>
+</body>
+</html>
+

@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Dream Weaver - Visual Novel</title>
+  <title><%= @story['title'] || 'Dream Weaver' %> - Visual Novel</title>
   <%= stylesheet_link_tag 'game', media: 'all' %>
 </head>
 <body>
   <div class="game-container">
+    <% if @story['title'] %>
+      <div style="text-align: center; padding: 10px 0; font-size: 24px; font-weight: bold; color: #667eea;">
+        <%= @story['title'] %>
+      </div>
+    <% end %>
     <div class="scene-image-container">
       <% if @scene_image %>
         <%= image_tag @scene_image, alt: "Scene image", class: "scene-image" %>
@@ -32,9 +37,15 @@
     <% else %>
       <div class="ending-container">
         <p class="ending-text">The End</p>
-        <%= form_with url: restart_game_path, method: :post, local: true do |f| %>
-          <%= f.submit "Play Again", class: "restart-button" %>
-        <% end %>
+        <div style="display: flex; gap: 10px; justify-content: center;">
+          <%= form_with url: restart_game_path, method: :post, local: true, style: "flex: 1;" do |f| %>
+            <%= f.submit "Play Again", class: "restart-button" %>
+          <% end %>
+          <%= form_with url: restart_game_path, method: :post, local: true, style: "flex: 1;" do |f| %>
+            <%= hidden_field_tag :new_story, true %>
+            <%= f.submit "Create New Story", class: "restart-button", style: "background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);" %>
+          <% end %>
+        </div>
       </div>
     <% end %>
   </div>
