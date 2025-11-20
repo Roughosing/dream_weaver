@@ -7,7 +7,8 @@ class GeminiImageGenerator < ImageGeneratorBase
 
   def initialize(options = {})
     super(options)
-    @gemini_api_key = ENV.fetch('GEMINI_API_KEY', 'AIzaSyBsGhdvJPBCqw4w4i1gpnKU2CGV2J-Cits')
+    @gemini_api_key = ENV['GEMINI_API_KEY']
+    raise 'GEMINI_API_KEY environment variable not set' unless @gemini_api_key
     @gemini_text_url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent'
     # Nanobanana = Gemini 2.5 Flash Image model
     @gemini_image_url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image-preview:generateContent'
