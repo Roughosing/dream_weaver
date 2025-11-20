@@ -1,21 +1,86 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= @story['title'] || 'Dream Weaver' %> - Visual Novel</title>
+  <title><%= @story['title'] || 'Dream Weaver' %> - Text Adventure</title>
   <%= stylesheet_link_tag 'game', media: 'all' %>
+  <style>
+    .terminal-header {
+      text-align: center;
+      padding: 8px 0;
+      font-size: 20px;
+      font-weight: bold;
+      color: #00ff00;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      border-bottom: 1px solid #00aa00;
+      margin-bottom: 12px;
+      text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+      position: relative;
+      z-index: 4;
+      line-height: 1.3;
+    }
+    
+    .terminal-prompt {
+      color: #00ff00;
+      margin-bottom: 8px;
+      font-size: 14px;
+      letter-spacing: 1px;
+      text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+      position: relative;
+      z-index: 4;
+    }
+    
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .loading-overlay.active {
+      display: flex;
+    }
+    
+    .loading-message {
+      text-align: center;
+      color: #00ff00;
+      font-size: 24px;
+      letter-spacing: 3px;
+      text-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
+      padding: 40px;
+      border: 3px solid #00ff00;
+      background: #0a0a0a;
+      box-shadow: 
+        inset 0 0 50px rgba(0, 255, 0, 0.05),
+        0 0 50px rgba(0, 255, 0, 0.3);
+      animation: blink 1.5s infinite;
+    }
+    
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0.4; }
+    }
+  </style>
 </head>
 <body>
   <div class="game-container">
     <% if @story['title'] %>
-      <div style="text-align: center; padding: 10px 0; font-size: 24px; font-weight: bold; color: #667eea;">
-        <%= @story['title'] %>
+      <div class="terminal-header">
+        [ <%= @story['title'].upcase %> ]
       </div>
     <% end %>
+    
     <div class="scene-image-container">
       <% if @scene_image %>
         <%= image_tag @scene_image, alt: "Scene image", class: "scene-image" %>
       <% else %>
-        <div class="image-loading">Generating image...</div>
+        <div class="image-loading">[ RENDERING VISUAL DATA... ]</div>
       <% end %>
     </div>
 
@@ -26,6 +91,9 @@
     </div>
 
     <% if @current_scene['choices'] && @current_scene['choices'].any? %>
+      <div class="terminal-prompt">
+        >:
+      </div>
       <div class="choices-container">
         <% @current_scene['choices'].each_with_index do |choice, index| %>
           <%= form_with url: choose_game_path, method: :post, local: true, class: "choice-form" do |f| %>
@@ -36,18 +104,51 @@
       </div>
     <% else %>
       <div class="ending-container">
-        <p class="ending-text">The End</p>
-        <div style="display: flex; gap: 10px; justify-content: center;">
+        <p class="ending-text">
+          ╔═════════════════════╗<br>
+          ║ ---- GAME  OVER ---- ║<br>
+          ╚═════════════════════╝
+        </p>
+        <div style="display: flex; gap: 15px; justify-content: center;">
           <%= form_with url: restart_game_path, method: :post, local: true, style: "flex: 1;" do |f| %>
-            <%= f.submit "Play Again", class: "restart-button" %>
+            <%= f.submit "[ REPLAY ]", class: "restart-button" %>
           <% end %>
           <%= form_with url: restart_game_path, method: :post, local: true, style: "flex: 1;" do |f| %>
             <%= hidden_field_tag :new_story, true %>
-            <%= f.submit "Create New Story", class: "restart-button", style: "background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);" %>
+            <%= f.submit "[ NEW ADVENTURE ]", class: "restart-button" %>
           <% end %>
         </div>
       </div>
     <% end %>
   </div>
+  
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-message">
+      [ GENERATING NEXT SCENE...]
+    </div>
+  </div>
+  
+  <script>
+    // Show loading overlay when any choice is submitted
+    document.addEventListener('DOMContentLoaded', function() {
+      const forms = document.querySelectorAll('.choice-form');
+      const loadingOverlay = document.getElementById('loadingOverlay');
+      
+      forms.forEach(function(form) {
+        form.addEventListener('submit', function() {
+          loadingOverlay.classList.add('active');
+        });
+      });
+      
+      // Also handle restart buttons
+      const restartForms = document.querySelectorAll('form[action*="restart"]');
+      restartForms.forEach(function(form) {
+        form.addEventListener('submit', function() {
+          loadingOverlay.classList.add('active');
+        });
+      });
+    });
+  </script>
 </body>
 </html>
